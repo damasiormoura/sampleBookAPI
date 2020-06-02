@@ -1,0 +1,117 @@
+---
+swagger: "2.0"
+info:
+  description: "Sample Books API"
+  version: "1.0.0"
+  title: "Simple Inventory API"
+  contact:
+    email: "damasiormoura@gmail.com.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/damasiormoura/sample_books/1.0.0"
+tags:
+- name: "admins"
+  description: "Secured Admin-only calls"
+- name: "developers"
+  description: "Operations available to regular developers"
+schemes:
+- "https"
+paths:
+  /books:
+    get:
+      tags:
+      - "developers"
+      summary: "searches books"
+      description: "Search for books in memory\n"
+      operationId: "searchBook"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "searchString"
+        in: "query"
+        description: "pass an optional search string for looking up inventory"
+        required: false
+        type: "string"
+        x-exportParamName: "SearchString"
+        x-optionalDataType: "String"
+      - name: "skip"
+        in: "query"
+        description: "number of records to skip for pagination"
+        required: false
+        type: "integer"
+        minimum: 0
+        format: "int32"
+        x-exportParamName: "Skip"
+        x-optionalDataType: "Int32"
+      - name: "limit"
+        in: "query"
+        description: "maximum number of records to return"
+        required: false
+        type: "integer"
+        maximum: 50
+        minimum: 0
+        format: "int32"
+        x-exportParamName: "Limit"
+        x-optionalDataType: "Int32"
+      responses:
+        "200":
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        "400":
+          description: "bad input parameter"
+    post:
+      tags:
+      - "admins"
+      summary: "adds a book"
+      description: "Adds a book to the system"
+      operationId: "addBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "book"
+        description: "Book to add"
+        required: false
+        schema:
+          $ref: "#/definitions/Book"
+        x-exportParamName: "Book"
+      responses:
+        "201":
+          description: "item created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing item already exists"
+definitions:
+  Book:
+    type: "object"
+    required:
+    - "author"
+    - "edition"
+    - "isbn"
+    - "title"
+    properties:
+      isbn:
+        type: "string"
+        example: "12-34567-89-0"
+      title:
+        type: "string"
+        example: "Exemplo de Livro"
+      author:
+        type: "string"
+        example: "Rodrigo Moura"
+      edition:
+        type: "string"
+        example: "1"
+    example:
+      author: "Rodrigo Moura"
+      isbn: "12-34567-89-0"
+      edition: "1"
+      title: "Exemplo de Livro"
