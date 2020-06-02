@@ -67,21 +67,21 @@ paths:
     post:
       tags:
       - "admins"
-      summary: "adds an inventory item"
-      description: "Adds an item to the system"
-      operationId: "addInventory"
+      summary: "adds a book"
+      description: "Adds a book to the system"
+      operationId: "addBook"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
       - in: "body"
-        name: "inventoryItem"
-        description: "Inventory item to add"
+        name: "book"
+        description: "Book to add"
         required: false
         schema:
           $ref: "#/definitions/Book"
-        x-exportParamName: "InventoryItem"
+        x-exportParamName: "Book"
       responses:
         "201":
           description: "item created"

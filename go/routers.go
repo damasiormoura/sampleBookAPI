@@ -57,10 +57,10 @@ var routes = Routes{
 	},
 
 	Route{
-		"AddInventory",
+		"AddBook",
 		strings.ToUpper("Post"),
 		"/damasiormoura/sample_books/1.0.0/books",
-		AddInventory,
+		AddBook,
 	},
 
 	Route{
