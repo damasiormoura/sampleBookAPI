@@ -11,10 +11,22 @@
 package swagger
 
 import (
+	"io/ioutil"
 	"net/http"
 )
 
 func AddBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	book := BookFromJSON(body)
+	isbn, created := CreateBook(book)
+	if created {
+		w.Header().Add("Location", "/damasiormoura/sample_books/1.0.0/books/"+isbn)
+		w.WriteHeader(http.StatusCreated)
+	} else {
+		w.WriteHeader(http.StatusConflict)
+	}
 }

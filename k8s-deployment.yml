@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-books
+  labels:
+    app: sample-books
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: sample-books
+      tier: service
+  revisionHistoryLimit: 10
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  template:
+    metadata:
+      labels:
+        app: sample-books
+        tier: service
+    spec:
+      containers:
+      - name: sample-books
+        image: "damasiormoura/samplebooksapi:1.0.0"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "125m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /damasiormoura/sample_books/1.0.0/
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /damasiormoura/sample_books/1.0.0/
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5       
+        env:
+        - name: PORT
+          value: "8080"

@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sample-books
+  labels:
+    app: sample-books
+    tier: frontend
+spec:
+  backend:
+    serviceName: sample-books
+    servicePort: 8080

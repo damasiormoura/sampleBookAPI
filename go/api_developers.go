@@ -11,10 +11,17 @@
 package swagger
 
 import (
+	"encoding/json"
 	"net/http"
 )
 
 func SearchBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	books := AllBooks()
+	b, err := json.Marshal(books)
+	if err != nil {
+		panic(err)
+	}
 	w.WriteHeader(http.StatusOK)
+	w.Write(b)
 }
