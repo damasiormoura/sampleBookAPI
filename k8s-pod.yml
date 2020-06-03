@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-books
+  labels:
+    language: go
+    env: test
+spec:
+  containers:
+  - image: damasiormoura/samplebooksapi:1.0.0
+    name: sample-books
+    ports:
+    - containerPort: 8080
+      protocol: TCP
